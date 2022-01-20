@@ -1,0 +1,60 @@
+﻿use cs2zb_searchdb;
+
+INSERT INTO cs2zb_searchdb.Documents(docId,text) VALUES(1,'apple apple orange kiwi apple')
+INSERT INTO cs2zb_searchdb.Documents(docId,text) VALUES(2,'kiwi orange orange kiwi')
+INSERT INTO cs2zb_searchdb.Documents(docId,text) VALUES(3,'grapes grapes apple')
+INSERT INTO cs2zb_searchdb.Documents(docId,text) VALUES(4,'kiwi kiwi orange orange apple')
+select * from Documents;
+
+INSERT INTO cs2zb_searchdb.Terms(termId,name) VALUES(1,'apple');
+INSERT INTO cs2zb_searchdb.Terms(termId,name) VALUES(2,'grapes');
+INSERT INTO cs2zb_searchdb.Terms(termId,name) VALUES(3,'kiwi');
+INSERT INTO cs2zb_searchdb.Terms(termId,name) VALUES(4,'orange')
+select * from Terms;
+
+
+use cs2zb_searchdb;
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(1,1,0.1726,'0-1-4')
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(1,3,0.0958,'2')
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(1,4,0.0575,'4')
+
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(2,3,0.9241,'0-1')
+
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(3,1,0.0575,'3')
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(3,2,0.1438,'0-3')
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(3,4,0.115,'0-1')
+
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(4,1,0.0575,'2')
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(4,2,0.1438,'1-2')
+INSERT INTO cs2zb_searchdb.Postings(termId, docId, weight, positions) VALUES(4,4,0.115,'2-3')
+
+
+select * from Postings;
+
+use cs2_searchdb;
+
+CREATE TABLE cs2_searchdb.Documents (
+    docId INT NOT NULL ,
+    text VARCHAR(255) NOT NULL ,
+    PRIMARY KEY (docId)
+);
+
+CREATE TABLE cs2_searchdb.Terms(
+	termId INT NOT NULL,
+	name VARCHAR (255) NOT NULL,
+	PRIMARY KEY(termId) 
+);
+
+
+CREATE TABLE cs2_searchdb.Postings (
+	termId INT NOT NULL,
+	docId INT NOT NULL,
+	weight FLOAT NOT NULL,
+	positions VARCHAR (255) NOT NULL,
+	PRIMARY KEY (termId, docId),
+	FOREIGN KEY (termId) REFERENCES cs2_searchdb.Terms (termId) ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY (docId) REFERENCES cs2_searchdb.Documents(docId) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+select * from information_schema.TABLES;
